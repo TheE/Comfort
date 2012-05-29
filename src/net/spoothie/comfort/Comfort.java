@@ -27,7 +27,7 @@ public class Comfort extends JavaPlugin {
 	
 		public HashMap<Player, Block> comfortPlayers = new HashMap<Player, Block>();
 		public HashMap<String, Double> comfortBlocks = new HashMap<String, Double>();
-		public boolean sneaking, useSpout;
+		public boolean empty, sneaking, useSpout;
 		public double distance;
 		
 		private File pluginFolder;
@@ -37,9 +37,9 @@ public class Comfort extends JavaPlugin {
 		public void onEnable() {
 			pluginFolder = getDataFolder();
 			configFile = new File(pluginFolder, "config.yml");
-			createConfig();
-	        saveConfig();
-	        loadConfig();      
+		createConfig();
+		saveConfig();
+		loadConfig();
 			EventListener eventListener = new EventListener(this);
 			getServer().getPluginManager().registerEvents(eventListener, this);
 			
@@ -76,6 +76,7 @@ public class Comfort extends JavaPlugin {
 		}
 		
 		private void loadConfig() {
+			empty = getConfig().getBoolean("empty");
 			sneaking = getConfig().getBoolean("sneaking");
 			distance = getConfig().getDouble("distance");
 
@@ -87,23 +88,27 @@ public class Comfort extends JavaPlugin {
 			}
 		}
 
-		@Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			if (command.getName().equalsIgnoreCase("comfort")) {
-	        	if(sender instanceof Player && !((Player)sender).hasPermission("comfort.reload"))
-	        		return true;
-	        	
-	        	if(args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-	        		reloadConfig();
-	        		loadConfig();
-	        		sender.sendMessage(ChatColor.YELLOW + "Comfort configuration file reloaded.");
-	        	}
-	        	else
-	        		sender.sendMessage(ChatColor.YELLOW + "Use '/comfort reload' to reload the configuration file.");
-	        }
-	        
-	        return true;
-	    }
-		
+	@Override
+	public boolean onCommand(CommandSender sender, Command command,
+			String label, String[] args) {
+		if (command.getName().equalsIgnoreCase("comfort")) {
+			if (sender instanceof Player
+					&& !((Player) sender).hasPermission("comfort.reload"))
+				return true;
+
+			if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+				reloadConfig();
+				loadConfig();
+				sender.sendMessage(ChatColor.YELLOW
+						+ "Comfort configuration file reloaded.");
+			} else
+				sender.sendMessage(ChatColor.YELLOW
+						+ "Use '/comfort reload' to reload the configuration file.");
+		}
+
+		return true;
+	}
+
 		public void sitDown(Player player, Block block) {
 			player.setAllowFlight(true);
 			player.setFlying(true);

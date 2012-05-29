@@ -56,6 +56,10 @@ public class EventListener implements Listener {
 				if(plugin.distance > 0 && player.getLocation().distance(block.getLocation().add(0.5, 0.5, 0.5)) > plugin.distance)
 					return;
 				
+				// Check if player's hand is empty
+				if(plugin.empty == true && player.getItemInHand().getType() != Material.AIR)
+					return;
+				
 				// Check if player is sneaking.
 				if(plugin.sneaking == false || (plugin.sneaking == true && player.isSneaking())) {
 					plugin.sitDown(player, block);

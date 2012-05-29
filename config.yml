@@ -7,6 +7,7 @@
 # 53: 0.5
 # 44:2: 0.3
 # ------
+# empty: If set to true, your hand have to be empty when you rightclick to sit down on a seat.
 # sneaking: If set to true, you have to sneak and rightclick to sit down on a seat.
 # distance: The maximum distance between the seat (the center of the block) and the player to be able to sit down (to prevent glitching through walls, etc.).
 # ------
@@ -15,5 +16,6 @@ blocks:
     '53:1': 0.5
     '53:2': 0.5
     '53:3': 0.5
-sneaking: true
+empty: true
+sneaking: false
 distance: 2
